@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="dict.txt"></script>
+    <script>
+function factorial(num){
+if (num <= 0) {
+return 1;
+}
+var ans=1;
+for (var i=1;i<=num;i++){
+ans*=num;
+}
+return ans;
+}
+    var correctWords, allSubsets;
+	var permArr = [], usedChars = [];
+    const getAllSubsets =
+        theArray => theArray.reduce(
+            (subsets, value) => subsets.concat(
+                subsets.map(set => [value, ...set])
+            ), [
+                []
+            ]
+        );
+
+function permute(string) {
+    if (string.length < 2) return string; // This is our break condition
+
+    var permutations = []; // This array will hold our permutations
+
+    for (var i=0; i<string.length; i++) {
+        var char = string[i];
+
+        // Cause we don't want any duplicates:
+        if (string.indexOf(char) != i) // if char was used already
+            continue;           // skip it this time
+
+        var remainingString = string.slice(0,i) + string.slice(i+1,string.length); //Note: you can concat Strings via '+' in JS
+
+        for (var subPermutation of permute(remainingString))
+            permutations.push(char + subPermutation)
+
+    }
+    return permutations;
+}
+function flatten(arr) {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
+    var words = text.split("\n");
+
+    function main() {
+        var availableLetters = prompt("All letters available in any order", "");
+        var wordCount = 0;
+        allSubsets = getAllSubsets(availableLetters.split(""));
+        allSubsets = allSubsets.map(x => x.join("")).slice(1);
+        allSubsets = flatten(allSubsets.map(x => permute(x)));
+        var correctWords = [];
+        for (var pos = 0; pos <= allSubsets.length; pos++) {
+            if (words.indexOf(allSubsets[pos]) > -1) {
+                wordCount++;
+                correctWords.push(allSubsets[pos]);
+            }
+        }
+        correctWords.sort(function(a, b) {
+            return a.length - b.length || // sort by length, if equal then
+                a.localeCompare(b); // sort by dictionary order
+        });
+        var list = document.getElementById('list');
+        var textNode;
+        for (var i in correctWords) {
+            if (correctWords[i].length >= 2) {
+                textNode = document.createTextNode(correctWords[i] + "\n");
+                list.appendChild(textNode);
+                console.log(correctWords[i]);
+            }
+        }
+        console.log(correctWords);
+        console.log('Script execution complete, found ' + wordCount.toString() + ' word(s)');
+    }
+    </script>
+</head>
+
+<body onload='main()'>
+    <ul id='list'></ul>
+</body>
+
+</html>
