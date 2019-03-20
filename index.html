@@ -50,7 +50,6 @@ function flatten(arr) {
     return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
   }, []);
 }
-    var words = text.split("\n");
 
     function main() {
         var availableLetters = prompt("All letters available in any order", "").toUpperCase();
