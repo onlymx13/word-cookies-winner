@@ -59,7 +59,7 @@ function flatten(arr) {
         allSubsets = flatten(allSubsets.map(x => permute(x)));
         var correctWords = [];
         for (var pos = 0; pos <= allSubsets.length; pos++) {
-            if (words.indexOf(allSubsets[pos]) > -1 && correctWords.indexOf(allSubsets[pos]) = -1) {
+            if (words.indexOf(allSubsets[pos]) > -1 && correctWords.indexOf(allSubsets[pos]) === -1) {
                 wordCount++;
                 correctWords.push(allSubsets[pos]);
             }
